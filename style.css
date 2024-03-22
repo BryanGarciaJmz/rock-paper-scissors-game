@@ -1,0 +1,51 @@
+body {
+    background-color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        h1 {
+            color: white;
+            margin: 0;
+            padding: 20px 0px 40px;
+        }
+    }
+
+    .hero {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        button {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .rock, .paper, .scissors {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+        }
+
+        .rock {
+            color: #E63946;
+        }
+
+        .paper {
+            color: #457B9D;
+        }
+
+        .scissors {
+            color: #2A9D8F;
+        }
+    }
+}
