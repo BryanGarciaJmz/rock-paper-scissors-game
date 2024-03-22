@@ -16,11 +16,20 @@ document.querySelector('.scissors').addEventListener('click', () => {
 })
 
 document.getElementById('resetButton').addEventListener('click', () => {
-    resetScore();
+    showConfirm();
 })
 
 document.getElementById('autoPlayButton').addEventListener('click', () => {
     autoPlay();
+})
+
+document.getElementById('yesButton').addEventListener('click', () => {
+    resetScore();
+    hideConfirm();
+})
+
+document.getElementById('noButton').addEventListener('click', () => {
+    hideConfirm();
 })
 
 function playGame(playerMove) {
@@ -108,4 +117,16 @@ function autoPlay() {
         buttonAutoPlay.innerHTML = 'Stop Playing';
         isAutoPlay = true;
     }
+}
+
+function showConfirm() {
+    document.querySelector('.confirm p').classList.add('visible');
+    document.getElementById('yesButton').classList.add('visible');
+    document.getElementById('noButton').classList.add('visible');
+}
+
+function hideConfirm() {
+    document.querySelector('.confirm p').classList.remove('visible');
+    document.getElementById('yesButton').classList.remove('visible');
+    document.getElementById('noButton').classList.remove('visible');
 }
