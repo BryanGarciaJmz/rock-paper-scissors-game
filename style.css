@@ -48,4 +48,24 @@ body {
             color: #2A9D8F;
         }
     }
+
+    #click {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        div {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .result {
+            padding: 50px 0px 0px;
+            font-size: 35px;
+            font-weight: 600;
+        }
+    }
 }
