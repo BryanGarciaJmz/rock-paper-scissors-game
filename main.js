@@ -1,4 +1,7 @@
 let score = JSON.parse(localStorage.getItem('score')) || {wins: 0, losses: 0, ties: 0};
+const buttonAutoPlay = document.getElementById('autoPlayButton');
+let isAutoPlay = false;
+let intervalId;
 
 document.querySelector('.rock').addEventListener('click', () => {
     playGame('rock');
@@ -10,6 +13,14 @@ document.querySelector('.paper').addEventListener('click', () => {
 
 document.querySelector('.scissors').addEventListener('click', () => {
     playGame('scissors');
+})
+
+document.getElementById('resetButton').addEventListener('click', () => {
+    resetScore();
+})
+
+document.getElementById('autoPlayButton').addEventListener('click', () => {
+    autoPlay();
 })
 
 function playGame(playerMove) {
@@ -58,7 +69,8 @@ function playGame(playerMove) {
     <div class='result'>${result}</div>
     <div>You picked ${playerMove}. Computer pick ${computerMove}.</div>
     <div class="reset">Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}</div>`
-
+    document.getElementById('resetButton').classList.add('visible');
+    document.getElementById('autoPlayButton').classList.add('visible');
 }
 
 function pickComputerMove() {
@@ -73,4 +85,27 @@ function pickComputerMove() {
         computerMove = 'scissors'
     }
     return computerMove
+}
+
+function resetScore() {
+    score.wins = 0;
+    score.losses = 0;
+    score.ties = 0;
+    localStorage.removeItem('score');
+    document.querySelector('.reset').innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+}
+
+function autoPlay() {
+    if (isAutoPlay) {
+        clearInterval(intervalId);
+        buttonAutoPlay.innerHTML = 'AutoPlay'
+        isAutoPlay = false;
+    } else {
+        intervalId = setInterval(() => {
+            const playerMove = pickComputerMove();
+            playGame(playerMove);
+        }, 1000);
+        buttonAutoPlay.innerHTML = 'Stop Playing';
+        isAutoPlay = true;
+    }
 }
