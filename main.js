@@ -1,4 +1,4 @@
-let score = JSON.parse(localStorage.getItem('score')) || {wins: 0, losses: 0, ties: 0};
+let score = { wins: 0, losses: 0, ties: 0 };
 const buttonAutoPlay = document.getElementById('autoPlayButton');
 let isAutoPlay = false;
 let intervalId;
@@ -48,43 +48,45 @@ function playGame(playerMove) {
     let computerMove = pickComputerMove();
     let result = '';
 
+    if (score.wins >= 5 || score.ties >= 5 || score.losses >= 5) {
+        return
+    }
+
     if (playerMove === 'scissors') {
         if (computerMove === 'rock') {
-            result = 'You lose!';
+            result = 'You lose the round!';
         } else if (computerMove === 'paper') {
-            result = 'You win!';
+            result = 'You win the round!';
         } else if (computerMove === 'scissors') {
-            result = 'Tie';
+            result = "Tie";
         }
 
     } else if (playerMove === 'paper') {
         if (computerMove === 'rock') {
-            result = 'You win!';
+            result = 'You win the round!';
         } else if (computerMove === 'paper') {
-            result = 'Tie';
+            result = "Tie";
         } else if (computerMove === 'scissors') {
-            result = 'You lose!';
+            result = 'You lose the round!';
         }
 
     } else if (playerMove === 'rock') {
         if (computerMove === 'rock') {
-            result = 'Tie';
+            result = "Tie";
         } else if (computerMove === 'paper') {
-            result = 'You lose!';
+            result = 'You lose the round!';
         } else if (computerMove === 'scissors') {
-            result = 'You win!';
+            result = 'You win the round!';
         }
     }
 
-    if (result === 'You win!') {
+    if (result === 'You win the round!') {
         score.wins++;
-    } else if (result === 'You lose!') {
+    } else if (result === 'You lose the round!') {
         score.losses++;
     } else if (result === "Tie") {
         score.ties++;
     }
-
-    localStorage.setItem('score', JSON.stringify(score));
 
     document.getElementById('click').innerHTML = `
     <div class='result'>${result}</div>
@@ -92,7 +94,9 @@ function playGame(playerMove) {
     <div class="reset">Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}</div>`
     document.getElementById('resetButton').classList.add('visible');
     document.getElementById('autoPlayButton').classList.add('visible');
+    checkWin();
 }
+
 
 function pickComputerMove() {
     let computerMove = '';
@@ -112,7 +116,6 @@ function resetScore() {
     score.wins = 0;
     score.losses = 0;
     score.ties = 0;
-    localStorage.removeItem('score');
     document.querySelector('.reset').innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
 }
 
@@ -129,6 +132,8 @@ function autoPlay() {
         buttonAutoPlay.innerHTML = 'Stop Playing';
         isAutoPlay = true;
     }
+    checkWin();
+
 }
 
 function showConfirm() {
@@ -141,4 +146,22 @@ function hideConfirm() {
     document.querySelector('.confirm p').classList.remove('visible');
     document.getElementById('yesButton').classList.remove('visible');
     document.getElementById('noButton').classList.remove('visible');
+}
+
+function checkWin() {
+
+    if (score.wins === 5) {
+        document.querySelector(".result").innerHTML = `You win the game :D`;
+    } else if (score.ties === 5) {
+        document.querySelector(".result").innerHTML = `It's a tie`;
+    } else if (score.losses === 5) {
+        document.querySelector(".result").innerHTML = `You lost the game D:`;
+    }
+
+    setTimeout(() => {
+        if (score.wins === 5 || score.ties === 5 || score.losses === 5) {
+            resetScore();
+        }
+    }, 5000);
+
 }
